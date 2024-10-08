@@ -6,10 +6,11 @@ assembly="editor"
 
 sourceFlags="src/*.c"
 assemblyFlags="-o bin/$assembly"
-
 includeFlags="-Iinclude/raylib"
 libraryFlags="-Llib -lraylib"
+# warningFlags="-Wall -Werror"
+warningFlags=""
 
 
-g++ $sourceFlags $assemblyFlags $includeFlags $libraryFlags
-./bin/$assembly
+g++ $warningFlags $sourceFlags $assemblyFlags $includeFlags $libraryFlags
+# ./bin/$assembly
