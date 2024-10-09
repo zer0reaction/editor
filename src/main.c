@@ -1,6 +1,6 @@
 #include "raylib.h"
 #include "file_operations.h"
-#include "text_operations.h"
+#include "buffer_operations.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -13,7 +13,7 @@ int main(int argc, char** argv) {
     struct text_buffer buff;
     buff.first_line = NULL;
 
-    char* text = get_file_text("/home/zer0/git/editor/src/main.c");
+    char* text = get_file_text(argv[1]);
 
     put_text_in_buffer(&buff, text);
     print_buffer_text(&buff);

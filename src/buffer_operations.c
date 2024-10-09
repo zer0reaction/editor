@@ -1,6 +1,6 @@
 // Working with text
 
-#include "text_operations.h"
+#include "buffer_operations.h"
 
 #include <string.h>
 #include <stddef.h>
