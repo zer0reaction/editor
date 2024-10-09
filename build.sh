@@ -7,9 +7,9 @@ assembly="editor"
 sourceFlags="src/*.c"
 assemblyFlags="-o bin/$assembly"
 includeFlags="-Iinclude/raylib"
-libraryFlags="-Llib -lraylib"
-# warningFlags="-Wall -Werror"
-warningFlags=""
+libraryFlags="-Llib/raylib -lraylib"
+warningFlags="-Wall -Werror"
+# warningFlags=""
 
 
 g++ $warningFlags $sourceFlags $assemblyFlags $includeFlags $libraryFlags
