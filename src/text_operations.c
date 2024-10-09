@@ -8,8 +8,7 @@
 #include <stdlib.h>
 
 // Appending given line to the end of the buffer
-void append_line_to_buffer(struct text_buffer* buffer, 
-                           struct text_line* line) {
+void append_line_to_buffer(struct text_buffer* buffer, struct text_line* line) {
     // If there are no lines in the buffer
     if (buffer->first_line == NULL) buffer->first_line = line;
 
@@ -17,8 +16,7 @@ void append_line_to_buffer(struct text_buffer* buffer,
     else {
         // Going to the last line
         struct text_line* last_line = buffer->first_line;
-        while (last_line->next_ptr != NULL)
-            last_line = last_line->next_ptr;
+        while (last_line->next_ptr != NULL) last_line = last_line->next_ptr;
 
         // Assinging next_ptr
         last_line->next_ptr = line;
@@ -28,45 +26,61 @@ void append_line_to_buffer(struct text_buffer* buffer,
     }
 }
 
+struct text_line* create_new_line(char* text, int length) {
+    struct text_line* new_line = (struct text_line*)malloc(sizeof(struct text_line));
+    new_line->prev_ptr = NULL;
+    new_line->next_ptr = NULL;
+    new_line->length = length;
+
+    char* new_line_text = (char*)malloc(new_line->length + 1);
+    new_line_text[new_line->length] = '\0';
+
+    strncpy(new_line_text, text, new_line->length);
+
+    new_line->text=new_line_text;
+
+    return new_line;
+}
+
 // Creating a linked list from lines of text
 void put_text_in_buffer(struct text_buffer* buffer, char* text) {
-    // line_start - first character
-    // line_end - one after last character
     char* line_start = text;
     char* line_end = strstr(text, "\n");
 
-    // <= because there could be an empty line
-    while (line_start <= line_end) {
-        // Creating new line
-        struct text_line* new_line = 
-            (struct text_line*)malloc(sizeof(struct text_line));
+    // If it is a single line
+    if (line_end == NULL) {
+        line_end = text + strlen(text);
 
-        // Length without \0
-        int new_line_length = line_start - line_end;
+        struct text_line* new_line = create_new_line(line_start, line_end - line_start);
 
-        char* new_line_text = (char*)malloc(new_line_length + 1);
+        append_line_to_buffer(buffer, new_line);
 
-        strncpy(new_line_text, line_start, new_line_length);
-        new_line_text[new_line_length] = '\0';
+        return;
+    }
 
-        new_line->text = new_line_text;
-        new_line->prev_ptr = NULL;
-        new_line->next_ptr = NULL;
+    // If there are multiple lines
+    while (line_end != NULL) {
+        struct text_line* new_line = create_new_line(line_start, line_end - line_start);
 
         append_line_to_buffer(buffer, new_line);
 
         line_start = line_end + 1;
+        line_end = strstr(line_start, "\n");
+    }
 
-        // If line_start now points ahead of the array
-        if (line_start - text > (int)strlen(text))
-            return;
-        // If we are ok
-        else {
-            line_end = strstr(line_start, "\n");
+    // Dealing with the last line
+    line_end = line_start + strlen(line_start);
+    struct text_line* new_line = create_new_line(line_start, line_end - line_start);
+    append_line_to_buffer(buffer, new_line);
+}
 
-            // If there are no lines left
-            if (line_end == NULL)
-                return;
-        }
+void print_buffer_text(struct text_buffer* buffer) {
+    if (buffer->first_line == NULL) printf("No text found!");
+
+    struct text_line* current_line = buffer->first_line;
+
+    while (current_line != NULL) {
+        printf("%s\n", current_line->text);
+        current_line = current_line->next_ptr;
     }
 }
