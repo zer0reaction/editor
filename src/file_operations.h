@@ -1,6 +1,7 @@
-#pragma once
-#include "defines.h"
+// Working with files
 
-u8 check_file_existence(const char* path);
-u64 get_file_size(const char* path);
-s8* get_text(const char* path);
+#pragma once
+
+int check_file_existence(const char* path);
+long long int get_file_size(const char* path);
+char* get_file_text(const char* path);

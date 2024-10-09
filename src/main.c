@@ -1,5 +1,6 @@
 #include "raylib.h"
 #include "file_operations.h"
+#include "text_operations.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -9,9 +10,10 @@
 #define BACKGROUND_COLOR BLACK
 
 int main(int argc, char** argv) {
-    s8* text = get_text("/home/zer0/test.txt");
-    printf("%s", text);
+    struct text_buffer buff;
+    buff.first_line = NULL;
+    char text[100] = "kek\nkek";
 
-    free(text);
+    put_text_in_buffer(&buff, text);
     return 0;
 }
