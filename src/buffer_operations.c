@@ -84,3 +84,19 @@ void print_buffer_text(struct text_buffer* buffer) {
         current_line = current_line->next_ptr;
     }
 }
+
+void free_buffer(struct text_buffer* buffer) {
+    if (buffer != NULL) {
+        struct text_line* current_line = buffer->first_line;
+        struct text_line* next_line;
+
+        while (current_line != NULL) {
+            free(current_line->text);
+            next_line = current_line->next_ptr;
+            free(current_line);
+            current_line = next_line;
+        }
+
+        free(buffer);
+    }
+}

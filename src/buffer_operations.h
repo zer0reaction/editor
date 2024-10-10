@@ -21,3 +21,5 @@ struct text_line* create_new_line(char* text, int length);
 void put_text_in_buffer(struct text_buffer* buffer, char* text);
 
 void print_buffer_text(struct text_buffer* buffer);
+
+void free_buffer(struct text_buffer* buffer);

@@ -10,13 +10,14 @@
 #define BACKGROUND_COLOR BLACK
 
 int main(int argc, char** argv) {
-    struct text_buffer buff;
-    buff.first_line = NULL;
+    struct text_buffer* buff = (struct text_buffer*)malloc(sizeof(struct text_buffer));
+    buff->first_line = NULL;
 
     char* text = get_file_text(argv[1]);
 
-    put_text_in_buffer(&buff, text);
-    print_buffer_text(&buff);
+    put_text_in_buffer(buff, text);
+    print_buffer_text(buff);
+    free_buffer(buff);
 
     return 0;
 }
