@@ -12,7 +12,11 @@ text_buffer* create_buffer() {
     text_buffer* buffer = (text_buffer*)malloc(sizeof(text_buffer));
 
     buffer->first_line = NULL;
+    buffer->current_line = NULL;
     buffer->mode = 0;
+
+    buffer->offset_x = 0;
+    buffer->offset_y = 0;
 
     // On what line the cursor is rendered, not the position in the window
     buffer->cursor_line = 0;
@@ -63,6 +67,7 @@ void put_text_in_buffer(text_buffer* buffer, char* text) {
     char* line_start = text;
     char* line_end = strstr(text, "\n");
 
+
     // If it is a single line
     if (line_end == NULL) {
         line_end = text + strlen(text);
@@ -88,6 +93,8 @@ void put_text_in_buffer(text_buffer* buffer, char* text) {
     line_end = line_start + strlen(line_start);
     text_line* new_line = create_new_line(line_start, line_end - line_start);
     append_line_to_buffer(buffer, new_line);
+
+    buffer->current_line = buffer->first_line;
 }
 
 void print_buffer_text(text_buffer* buffer) {

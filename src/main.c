@@ -2,6 +2,7 @@
 #include "file_operations.h"
 #include "buffer_operations.h"
 #include "display_operations.h"
+#include "cursor_operations.h"
 #include "defines.h"
 
 #include <stdio.h>
@@ -24,12 +25,17 @@ int main(int argc, char** argv) {
     while(!WindowShouldClose()) {
         BeginDrawing();
 
+        if (IsKeyPressed(KEY_J)) 
+            move_cursor_vertically(buff, -1);
+        if (IsKeyPressed(KEY_K)) 
+            move_cursor_vertically(buff, 1);
+
         // If the window is resized
         if (last_width != GetScreenWidth() || last_height != GetScreenHeight())
             buff->needs_to_render = 1;
 
         if (buff->needs_to_render) {
-            display_buffer(buff, 0, 0);
+            display_buffer(buff);
             buff->needs_to_render = 0;
         }
 

@@ -17,38 +17,42 @@ void end_display() {
     UnloadFont(font);
 }
 
-void display_buffer(text_buffer* buffer, int offset_x, int offset_y) {
-    text_line* current_line = buffer->first_line;
-
+void display_buffer(text_buffer* buffer) {
     ClearBackground(BACKGROUND_COLOR);
 
+    text_line* line = buffer->first_line;
     int screen_height = GetScreenHeight();
-
     int line_count = 0;
 
+    int current_offset_x = buffer->offset_x;
+    int current_offset_y = buffer->offset_y;
+
     // For each line
-    while (current_line != NULL) {
+    while (line != NULL) {
         // If the line is on the screen
-        if (offset_y < screen_height && offset_y >= 0) {
-            DrawTextEx(font, current_line->text, (Vector2){ (float)offset_x, (float)offset_y }, (float)font.baseSize, 0.0f, FONT_COLOR);
+        if (current_offset_y < screen_height && current_offset_y >= 0) {
+            DrawTextEx(font, line->text, (Vector2){ (float)current_offset_x, (float)current_offset_y }, (float)font.baseSize, 0.0f, FONT_COLOR);
 
             // Displaying cursor
             if (line_count == buffer->cursor_line) {
-                DrawRectangle(buffer->cursor_pos * FONT_SIZE / 2, line_count * FONT_SIZE, FONT_SIZE / 2, FONT_SIZE, FONT_COLOR);
+                int cursor_x = buffer->cursor_pos * FONT_SIZE / 2;
+                int cursor_y = buffer->cursor_line * FONT_SIZE + buffer->offset_y;
+
+                DrawRectangle(cursor_x, cursor_y, FONT_SIZE / 2, FONT_SIZE, FONT_COLOR);
 
                 char character_under_cursor[2];
-                character_under_cursor[0] = current_line->text[buffer->cursor_pos];
+                character_under_cursor[0] = line->text[buffer->cursor_pos];
                 character_under_cursor[1] = '\n';
 
                 DrawTextEx(font, character_under_cursor, 
-                           (Vector2){ (float)offset_x + buffer->cursor_pos * FONT_SIZE, 
-                           (float)offset_y }, (float)font.baseSize, 0.0f, BACKGROUND_COLOR);
+                           (Vector2){ (float)buffer->offset_x + buffer->cursor_pos * FONT_SIZE, 
+                           (float)current_offset_y }, (float)font.baseSize, 0.0f, BACKGROUND_COLOR);
             }
         }
-        else if (offset_y > screen_height) return;
+        else if (current_offset_y > screen_height) return;
 
-        offset_y += font.baseSize;
-        current_line = current_line->next_ptr;
+        current_offset_y += font.baseSize;
+        line = line->next_ptr;
         line_count++;
     }
 }
