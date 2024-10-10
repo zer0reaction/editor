@@ -25,12 +25,12 @@ void display_buffer(text_buffer* buffer, int offset_x, int offset_y) {
 
     // For each line
     while (current_line != NULL) {
-        if (offset_y < screen_height) {
+        if (offset_y < screen_height && offset_y >= 0) {
             DrawTextEx(font, current_line->text, (Vector2){ (float)offset_x, (float)offset_y }, (float)font.baseSize, 0.0f, font_color);
-            offset_y += font.baseSize;
         }
-        else return;
+        else if (offset_y > screen_height) return;
 
+        offset_y += font.baseSize;
         current_line = current_line->next_ptr;
     }
 }
