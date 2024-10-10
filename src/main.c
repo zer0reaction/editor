@@ -27,18 +27,29 @@ int main(int argc, char** argv) {
     InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "editor");
     SetTargetFPS(60);
 
-    int show = 0;
+    init_display("/usr/share/fonts/TTF/Hack-Regular.ttf", 20, &font_color, &background_color);
+
+    int offset_y = 0;
+    int needs_to_render = 1;
 
     while(!WindowShouldClose()) {
-        if (IsKeyPressed(KEY_SPACE)) show = 1;
-        else show = 0;
-
-        if (show)
-            display_buffer(buff, FONT_SIZE, &font_color, &background_color, 0, 0);
-        else {
-            BeginDrawing();
-            EndDrawing();
+        if(IsKeyPressed(KEY_J)) {
+            offset_y -= FONT_SIZE;
+            needs_to_render = 1;
         }
+
+        if(IsKeyPressed(KEY_K)) {
+            offset_y += FONT_SIZE;
+            needs_to_render = 1;
+        }
+
+        // One render iteration
+        BeginDrawing();
+        if (needs_to_render) {
+            display_buffer(buff, 0, offset_y);
+            needs_to_render = 0;
+        }
+        EndDrawing();
     }
 
     CloseWindow();

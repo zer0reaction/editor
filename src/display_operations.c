@@ -6,22 +6,31 @@
 #include "raylib.h"
 #include "display_operations.h"
 
+Font font;
+Color font_color;
+Color background_color;
 
-void display_buffer(text_buffer* buffer, int font_size, Color* font_color, Color* background_color, int offset_x, int offset_y) {
+void init_display(const char* f_path, int f_size, Color* f_color, Color* b_color) {
+    font = LoadFontEx(f_path, f_size, 0, 0);
+    font_color = *f_color;
+    background_color = *b_color;
+}
+
+void display_buffer(text_buffer* buffer, int offset_x, int offset_y) {
     text_line* current_line = buffer->first_line;
 
-    Font font = LoadFontEx("/usr/share/fonts/TTF/Hack-Regular.ttf", font_size, 0, 0);
+    ClearBackground(background_color);
 
-    BeginDrawing();
-    ClearBackground(*background_color);
+    int screen_height = GetScreenHeight();
 
     // For each line
     while (current_line != NULL) {
-        DrawTextEx(font, current_line->text, (Vector2){ (float)offset_x, (float)offset_y }, (float)font_size, 0.0f, *font_color);
-        offset_y += font_size;
+        if (offset_y < screen_height) {
+            DrawTextEx(font, current_line->text, (Vector2){ (float)offset_x, (float)offset_y }, (float)font.baseSize, 0.0f, font_color);
+            offset_y += font.baseSize;
+        }
+        else return;
 
         current_line = current_line->next_ptr;
     }
-
-    EndDrawing();
 }
