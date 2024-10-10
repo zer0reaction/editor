@@ -7,7 +7,7 @@ assembly="editor"
 sourceFlags="src/*.c"
 assemblyFlags="-o bin/$assembly"
 includeFlags="-Iinclude/raylib"
-libraryFlags="-Llib/raylib -l:libraylib.a -static"
+libraryFlags="-Llib/raylib -l:libraylib.a"
 warningFlags="-Wall -Werror"
 # warningFlags=""
 
