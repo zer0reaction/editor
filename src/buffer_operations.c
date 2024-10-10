@@ -7,6 +7,22 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+// Creating an empty buffer
+text_buffer* create_buffer() {
+    text_buffer* buffer = (text_buffer*)malloc(sizeof(text_buffer));
+
+    buffer->first_line = NULL;
+    buffer->mode = 0;
+
+    // On what line the cursor is rendered, not the position in the window
+    buffer->cursor_line = 0;
+    buffer->cursor_pos = 0;
+
+    buffer->needs_to_render = 1;
+
+    return buffer;
+}
+
 // Appending given line to the end of the buffer
 void append_line_to_buffer(text_buffer* buffer, text_line* line) {
     // If there are no lines in the buffer

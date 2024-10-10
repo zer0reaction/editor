@@ -15,7 +15,16 @@ struct text_line {
 
 struct text_buffer {
     text_line* first_line;
+
+    int cursor_line;
+    int cursor_pos;
+
+    int mode; // 0 - normal, 1 - insert
+    
+    int needs_to_render;
 };
+
+text_buffer* create_buffer();
 
 void append_line_to_buffer(text_buffer* buffer, text_line* line);
 

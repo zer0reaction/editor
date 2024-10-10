@@ -2,57 +2,42 @@
 #include "file_operations.h"
 #include "buffer_operations.h"
 #include "display_operations.h"
+#include "defines.h"
 
 #include <stdio.h>
 #include <stdlib.h>
 
-#define FONT_SIZE 20
-#define FONT_COLOR WHITE
-#define BACKGROUND_COLOR BLACK
-
-#define WINDOW_WIDTH 640
-#define WINDOW_HEIGHT 480
-
 int main(int argc, char** argv) {
-    struct text_buffer* buff = (struct text_buffer*)malloc(sizeof(struct text_buffer));
-    buff->first_line = NULL;
-
+    text_buffer* buff = create_buffer();
     char* text = get_file_text(argv[1]);
-
-    Color font_color = FONT_COLOR;
-    Color background_color = BACKGROUND_COLOR;
-
     put_text_in_buffer(buff, text);
 
     InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "editor");
+    SetWindowState(FLAG_WINDOW_RESIZABLE);
     SetTargetFPS(60);
 
-    init_display("/usr/share/fonts/TTF/Hack-Regular.ttf", 20, &font_color, &background_color);
+    init_display("/usr/share/fonts/TTF/Hack-Regular.ttf");
 
-    int offset_y = 0;
-    int needs_to_render = 1;
+    int last_width = GetScreenWidth();
+    int last_height = GetScreenWidth();
 
     while(!WindowShouldClose()) {
-        if(IsKeyPressed(KEY_J)) {
-            offset_y -= FONT_SIZE;
-            needs_to_render = 1;
-        }
-
-        if(IsKeyPressed(KEY_K)) {
-            offset_y += FONT_SIZE;
-            needs_to_render = 1;
-        }
-
-        // One render iteration
         BeginDrawing();
-        if (needs_to_render) {
-            display_buffer(buff, 0, offset_y);
-            needs_to_render = 0;
+
+        // If the window is resized
+        if (last_width != GetScreenWidth() || last_height != GetScreenHeight())
+            buff->needs_to_render = 1;
+
+        if (buff->needs_to_render) {
+            display_buffer(buff, 0, 0);
+            buff->needs_to_render = 0;
         }
+
         EndDrawing();
     }
 
-    CloseWindow();
+    end_display();
     free_buffer(buff);
+    CloseWindow();
     return 0;
 }
