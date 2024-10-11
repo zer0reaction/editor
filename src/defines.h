@@ -1,8 +1,8 @@
 #pragma once
 
-#define FONT_SIZE 20
+#define FONT_SIZE 40
 #define FONT_COLOR WHITE
 #define BACKGROUND_COLOR BLACK
 
-#define WINDOW_WIDTH 640
-#define WINDOW_HEIGHT 480
+#define WINDOW_WIDTH 1000
+#define WINDOW_HEIGHT 800
