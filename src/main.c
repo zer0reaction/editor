@@ -22,6 +22,8 @@ int main(int argc, char** argv) {
     int last_width = GetScreenWidth();
     int last_height = GetScreenHeight();
 
+    long long int frame = 0;
+
     while(!WindowShouldClose()) {
         BeginDrawing();
 
@@ -36,7 +38,7 @@ int main(int argc, char** argv) {
         }
 
         if (buff->needs_to_render) {
-            printf("%s\n", "Rendering buffer");
+            printf("%s Frame: %lli\n", "Rendering buffer", frame);
             display_buffer(buff);
             buff->needs_to_render = 0;
         }
@@ -44,6 +46,7 @@ int main(int argc, char** argv) {
         last_width = GetScreenWidth();
         last_height = GetScreenHeight();
         EndDrawing();
+        frame++;
     }
 
     end_display();
