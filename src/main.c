@@ -20,7 +20,7 @@ int main(int argc, char** argv) {
     init_display("/usr/share/fonts/TTF/Hack-Regular.ttf");
 
     int last_width = GetScreenWidth();
-    int last_height = GetScreenWidth();
+    int last_height = GetScreenHeight();
 
     while(!WindowShouldClose()) {
         BeginDrawing();
@@ -31,14 +31,18 @@ int main(int argc, char** argv) {
             move_cursor_vertically(buff, 1);
 
         // If the window is resized
-        if (last_width != GetScreenWidth() || last_height != GetScreenHeight())
+        if (last_width != GetScreenWidth() || last_height != GetScreenHeight()) {
             buff->needs_to_render = 1;
+        }
 
         if (buff->needs_to_render) {
+            printf("%s\n", "Rendering buffer");
             display_buffer(buff);
             buff->needs_to_render = 0;
         }
 
+        last_width = GetScreenWidth();
+        last_height = GetScreenHeight();
         EndDrawing();
     }
 
