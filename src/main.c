@@ -26,9 +26,9 @@ int main(int argc, char** argv) {
         BeginDrawing();
 
         if (IsKeyPressed(KEY_J)) 
-            move_cursor_vertically(buff, -1);
+            move_cursor_vertically(buff, -5);
         if (IsKeyPressed(KEY_K)) 
-            move_cursor_vertically(buff, 1);
+            move_cursor_vertically(buff, 5);
 
         // If the window is resized
         if (last_width != GetScreenWidth() || last_height != GetScreenHeight())
