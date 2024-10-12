@@ -10,14 +10,14 @@
 
 // Change the offset so the cursor is visible from the top of the screen or from the bottom
 void snap_cursor(text_buffer* buffer) {
-    int current_cursor_relative_pos = buffer->cursor_line * FONT_SIZE + buffer->offset_y;
+    int current_cursor_relative_pos_y = buffer->cursor_line * FONT_SIZE + buffer->offset_y;
 
     // If the cursor is above window
-    if (current_cursor_relative_pos < 0)
-        buffer->offset_y += -current_cursor_relative_pos;
+    if (current_cursor_relative_pos_y < 0)
+        buffer->offset_y += -current_cursor_relative_pos_y;
     // If the cursor is below
-    else if (current_cursor_relative_pos + FONT_SIZE >= GetScreenHeight())
-        buffer->offset_y -= current_cursor_relative_pos + FONT_SIZE - GetScreenHeight();
+    else if (current_cursor_relative_pos_y + FONT_SIZE >= GetScreenHeight())
+        buffer->offset_y -= current_cursor_relative_pos_y + FONT_SIZE - GetScreenHeight();
 }
 
 void move_cursor_vertically(text_buffer* buffer, int offset) {
@@ -40,6 +40,40 @@ void move_cursor_vertically(text_buffer* buffer, int offset) {
                     buffer->current_line = buffer->current_line->next_ptr;
                     buffer->cursor_line++;
                 } else return;
+            }
+        }
+
+        if (buffer->max_cursor_pos <= buffer->current_line->length) {
+            buffer->current_line->last_cursor_pos = buffer->max_cursor_pos;
+        }
+        else {
+            buffer->current_line->last_cursor_pos = buffer->current_line->length;
+        }
+
+        snap_cursor(buffer);
+        buffer->needs_to_render = 1;
+    }
+}
+
+void move_cursor_horizontally(text_buffer* buffer, int offset) {
+    // If there is a line and we are in normal mode
+    if (buffer->current_line != NULL && buffer->mode == 0) {
+        if (offset < 0) {
+            if (buffer->current_line->last_cursor_pos + offset <= 0) {
+                buffer->current_line->last_cursor_pos = 0;
+                buffer->max_cursor_pos = 0;
+            } else {
+                buffer->current_line->last_cursor_pos += offset;
+                buffer->max_cursor_pos += offset;
+            }
+
+        } else if (offset > 0) {
+            if (buffer->current_line->last_cursor_pos + offset>= buffer->current_line->length) {
+                buffer->current_line->last_cursor_pos = buffer->current_line->length;
+                buffer->max_cursor_pos = buffer->current_line->length;
+            } else {
+                buffer->current_line->last_cursor_pos += offset;
+                buffer->max_cursor_pos += offset;
             }
         }
 

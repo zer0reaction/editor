@@ -9,6 +9,8 @@ struct text_line {
     text_line* prev_ptr;
     text_line* next_ptr;
 
+    int last_cursor_pos;
+
     char* text;
     int length;
 };
@@ -17,11 +19,11 @@ struct text_buffer {
     text_line* first_line;
     text_line* current_line;
 
-    int cursor_line;
-    int cursor_pos;
-
     int offset_x;
     int offset_y;
+
+    int cursor_line;
+    int max_cursor_pos;
 
     int mode; // 0 - normal, 1 - insert
     

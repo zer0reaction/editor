@@ -7,3 +7,4 @@
 
 void snap_cursor(text_buffer* buffer);
 void move_cursor_vertically(text_buffer* buffer, int offset);
+void move_cursor_horizontally(text_buffer* buffer, int offset);

@@ -34,19 +34,19 @@ void display_buffer(text_buffer* buffer) {
             DrawTextEx(font, line->text, (Vector2){ (float)current_offset_x, (float)current_offset_y }, (float)font.baseSize, 0.0f, FONT_COLOR);
 
             // Displaying cursor
-            if (line_count == buffer->cursor_line) {
-                int cursor_x = buffer->cursor_pos * FONT_SIZE / 2;
+            if (line == buffer->current_line) {
+                int cursor_x = buffer->current_line->last_cursor_pos * FONT_SIZE / 2;
                 int cursor_y = buffer->cursor_line * FONT_SIZE + buffer->offset_y;
 
-                DrawRectangle(cursor_x, cursor_y, FONT_SIZE / 2, FONT_SIZE, FONT_COLOR);
+                DrawRectangle(cursor_x, cursor_y, FONT_SIZE / 2, FONT_SIZE, CURSOR_COLOR);
 
                 char character_under_cursor[2];
-                character_under_cursor[0] = line->text[buffer->cursor_pos];
+                character_under_cursor[0] = line->text[buffer->current_line->last_cursor_pos];
                 character_under_cursor[1] = '\n';
 
                 DrawTextEx(font, character_under_cursor, 
-                           (Vector2){ (float)buffer->offset_x + buffer->cursor_pos * FONT_SIZE, 
-                           (float)current_offset_y }, (float)font.baseSize, 0.0f, BACKGROUND_COLOR);
+                           (Vector2){ (float)cursor_x, (float)cursor_y }, 
+                           (float)font.baseSize, 0.0f, BACKGROUND_COLOR);
             }
         }
         else if (current_offset_y > screen_height) return;

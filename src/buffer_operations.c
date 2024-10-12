@@ -20,7 +20,7 @@ text_buffer* create_buffer() {
 
     // On what line the cursor is rendered, not the position in the window
     buffer->cursor_line = 0;
-    buffer->cursor_pos = 0;
+    buffer->max_cursor_pos = 0;
 
     buffer->needs_to_render = 1;
 
@@ -51,6 +51,7 @@ text_line* create_new_line(char* text, int length) {
     new_line->prev_ptr = NULL;
     new_line->next_ptr = NULL;
     new_line->length = length;
+    new_line->last_cursor_pos = 0;
 
     char* new_line_text = (char*)malloc(new_line->length + 1);
     new_line_text[new_line->length] = '\0';

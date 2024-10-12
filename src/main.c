@@ -31,6 +31,10 @@ int main(int argc, char** argv) {
             move_cursor_vertically(buff, -1);
         if (IsKeyPressed(KEY_K)) 
             move_cursor_vertically(buff, 1);
+        if (IsKeyPressed(KEY_H)) 
+            move_cursor_horizontally(buff, -1);
+        if (IsKeyPressed(KEY_L)) 
+            move_cursor_horizontally(buff, 1);
 
         // If the window is resized
         if (last_width != GetScreenWidth() || last_height != GetScreenHeight()) {
