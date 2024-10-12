@@ -61,19 +61,17 @@ void move_cursor_horizontally(text_buffer* buffer, int offset) {
         if (offset < 0) {
             if (buffer->current_line->last_cursor_pos + offset <= 0) {
                 buffer->current_line->last_cursor_pos = 0;
-                buffer->max_cursor_pos = 0;
             } else {
                 buffer->current_line->last_cursor_pos += offset;
-                buffer->max_cursor_pos += offset;
+                buffer->max_cursor_pos = buffer->current_line->last_cursor_pos;
             }
 
         } else if (offset > 0) {
             if (buffer->current_line->last_cursor_pos + offset>= buffer->current_line->length) {
                 buffer->current_line->last_cursor_pos = buffer->current_line->length;
-                buffer->max_cursor_pos = buffer->current_line->length;
             } else {
                 buffer->current_line->last_cursor_pos += offset;
-                buffer->max_cursor_pos += offset;
+                buffer->max_cursor_pos = buffer->current_line->last_cursor_pos;
             }
         }
 

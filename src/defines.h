@@ -1,7 +1,7 @@
 #pragma once
 #include <raylib.h>
 
-#define FONT_SIZE 40
+#define FONT_SIZE 20
 #define FONT_COLOR CLITERAL(Color){210, 210, 210, 255} 
 
 #define BACKGROUND_COLOR CLITERAL(Color){30, 30, 30, 255}
