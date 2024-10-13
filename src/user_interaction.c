@@ -26,6 +26,9 @@ void handle_keyboard(text_buffer* buffer) {
         if (IsKeyPressed(KEY_ESCAPE)) {
             buffer->mode = 0;
         }
+        else if (IsKeyPressed(KEY_BACKSPACE)) {
+            delete_character_before_cursor(buffer);
+        }
 
         char c = GetCharPressed();
         while (c) {

@@ -30,9 +30,12 @@ struct text_buffer {
 };
 
 text_buffer* create_buffer();
+text_line* create_new_line(const char* text, int length);
+
 void append_line_to_buffer(text_buffer* buffer, text_line* line);
-text_line* create_new_line(char* text, int length);
 void put_text_in_buffer(text_buffer* buffer, char* text);
-void print_buffer_text(text_buffer* buffer);
+
 void add_character_at_cursor(text_buffer* buffer, char c);
+void delete_character_before_cursor(text_buffer* buffer);
+
 void free_buffer(text_buffer* buffer);

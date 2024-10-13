@@ -23,7 +23,7 @@ void snap_cursor(text_buffer* buffer) {
 
 void move_cursor_vertically(text_buffer* buffer, int offset) {
     // If there is a line and we are in normal mode
-    if (buffer->current_line != NULL && buffer->mode == 0) {
+    if (buffer->current_line != NULL) {
         // Moving up
         if (offset > 0) {
             for (int i = 0; i < offset; i++) {
@@ -59,7 +59,7 @@ void move_cursor_vertically(text_buffer* buffer, int offset) {
 
 void move_cursor_horizontally(text_buffer* buffer, int offset) {
     // If there is a line and we are in normal mode
-    if (buffer->current_line != NULL && buffer->mode == 0) {
+    if (buffer->current_line != NULL) {
         if (offset < 0) {
             if (buffer->current_line->last_cursor_pos + offset <= 0) {
                 buffer->current_line->last_cursor_pos = 0;
