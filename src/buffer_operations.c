@@ -47,6 +47,24 @@ void append_line_to_buffer(text_buffer* buffer, text_line* line) {
         // Assigning prev_ptr
         line->prev_ptr = last_line;
     }
+
+    buffer->needs_to_render = 1; 
+}
+
+// Insert a line to the place of line_num (starting with 0)
+void insert_line_into_buffer(text_buffer* buffer, text_line* new_line, int line_num) {
+    text_line* current_line = buffer->first_line; // We need to move this line down
+
+    for (int i = 0; i < line_num && current_line != NULL; i++) {
+        current_line = current_line->next_ptr;
+    }
+
+    if (current_line->prev_ptr != NULL) current_line->prev_ptr->next_ptr = new_line;
+    new_line->prev_ptr = current_line->prev_ptr;
+    new_line->next_ptr = current_line;
+    current_line->prev_ptr = new_line;
+        
+    buffer->needs_to_render = 1; 
 }
 
 text_line* create_new_line(const char* text, int length) {

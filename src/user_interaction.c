@@ -8,17 +8,26 @@
 void handle_keyboard(text_buffer* buffer) {
     // Normal mode stuff
     if (buffer->mode == 0) {
-        if (IsKeyPressed(KEY_I)) {
+        if (IsKeyPressed(KEY_I))
             buffer->mode = 1;
-        }
-        if (IsKeyPressed(KEY_J)) 
+
+        else if (IsKeyPressed(KEY_J)) 
             move_cursor_vertically(buffer, -1);
-        if (IsKeyPressed(KEY_K)) 
+
+        else if (IsKeyPressed(KEY_K)) 
             move_cursor_vertically(buffer, 1);
-        if (IsKeyPressed(KEY_H)) 
+
+        else if (IsKeyPressed(KEY_H)) 
             move_cursor_horizontally(buffer, -1);
-        if (IsKeyPressed(KEY_L)) 
+
+        else if (IsKeyPressed(KEY_L)) 
             move_cursor_horizontally(buffer, 1);
+
+        else if (IsKeyPressed(KEY_O)) {
+            text_line* new_line = create_new_line("", 0);
+            insert_line_into_buffer(buffer, new_line, buffer->cursor_line + 1);
+            move_cursor_vertically(buffer, -1);
+        }
     }
 
     // Insert mode stuff
