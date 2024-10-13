@@ -7,6 +7,7 @@
 
 #include <stddef.h>
 #include <stdio.h>
+#include <string.h>
 
 // Change the offset so the cursor is visible from the top of the screen or from the bottom
 void snap_cursor(text_buffer* buffer) {
@@ -43,11 +44,12 @@ void move_cursor_vertically(text_buffer* buffer, int offset) {
             }
         }
 
-        if (buffer->max_cursor_pos <= buffer->current_line->length) {
+        // btw there is a bug in this
+        if (buffer->max_cursor_pos <= (int)strlen(buffer->current_line->text)) {
             buffer->current_line->last_cursor_pos = buffer->max_cursor_pos;
         }
         else {
-            buffer->current_line->last_cursor_pos = buffer->current_line->length;
+            buffer->current_line->last_cursor_pos = strlen(buffer->current_line->text);
         }
 
         snap_cursor(buffer);
@@ -61,14 +63,15 @@ void move_cursor_horizontally(text_buffer* buffer, int offset) {
         if (offset < 0) {
             if (buffer->current_line->last_cursor_pos + offset <= 0) {
                 buffer->current_line->last_cursor_pos = 0;
+                buffer->max_cursor_pos = 0;
             } else {
                 buffer->current_line->last_cursor_pos += offset;
                 buffer->max_cursor_pos = buffer->current_line->last_cursor_pos;
             }
 
         } else if (offset > 0) {
-            if (buffer->current_line->last_cursor_pos + offset>= buffer->current_line->length) {
-                buffer->current_line->last_cursor_pos = buffer->current_line->length;
+            if (buffer->current_line->last_cursor_pos + offset>= (int)strlen(buffer->current_line->text)) {
+                buffer->current_line->last_cursor_pos = strlen(buffer->current_line->text);
             } else {
                 buffer->current_line->last_cursor_pos += offset;
                 buffer->max_cursor_pos = buffer->current_line->last_cursor_pos;

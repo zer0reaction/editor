@@ -11,6 +11,7 @@ Font font;
 
 void init_display(const char* f_path) {
     font = LoadFontEx(f_path, FONT_SIZE, 0, 0);
+    SetExitKey(KEY_NULL);
 }
 
 void end_display() {

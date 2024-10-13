@@ -50,13 +50,12 @@ text_line* create_new_line(char* text, int length) {
     text_line* new_line = (text_line*)malloc(sizeof(text_line));
     new_line->prev_ptr = NULL;
     new_line->next_ptr = NULL;
-    new_line->length = length;
     new_line->last_cursor_pos = 0;
 
-    char* new_line_text = (char*)malloc(new_line->length + 1);
-    new_line_text[new_line->length] = '\0';
+    char* new_line_text = (char*)malloc(length + 1);
+    new_line_text[length] = '\0';
 
-    strncpy(new_line_text, text, new_line->length);
+    strncpy(new_line_text, text, length);
 
     new_line->text=new_line_text;
 
@@ -67,7 +66,6 @@ text_line* create_new_line(char* text, int length) {
 void put_text_in_buffer(text_buffer* buffer, char* text) {
     char* line_start = text;
     char* line_end = strstr(text, "\n");
-
 
     // If it is a single line
     if (line_end == NULL) {
@@ -107,6 +105,25 @@ void print_buffer_text(text_buffer* buffer) {
         printf("%s\n", current_line->text);
         current_line = current_line->next_ptr;
     }
+}
+
+void add_character_at_cursor(text_buffer* buffer, char c) {
+    text_line* current_line = buffer->current_line;
+    int cursor_pos = buffer->current_line->last_cursor_pos;
+
+    char* new_text = (char*)malloc(strlen(current_line->text) + 2);
+
+    strncpy(new_text, current_line->text, cursor_pos);
+    new_text[cursor_pos] = c;
+    strncpy(new_text + cursor_pos + 1, current_line->text + cursor_pos, strlen(current_line->text) - cursor_pos);
+    new_text[strlen(current_line->text) + 1] = '\0';
+
+    free(current_line->text);
+    current_line->text = new_text;
+
+    buffer->current_line->last_cursor_pos++;
+    buffer->max_cursor_pos = current_line->last_cursor_pos;
+    buffer->needs_to_render = 1;
 }
 
 void free_buffer(text_buffer* buffer) {

@@ -2,8 +2,8 @@
 #include "file_operations.h"
 #include "buffer_operations.h"
 #include "display_operations.h"
-#include "cursor_operations.h"
 #include "defines.h"
+#include "user_interaction.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -12,7 +12,6 @@ int main(int argc, char** argv) {
     text_buffer* buff = create_buffer();
     char* text = get_file_text(argv[1]);
     put_text_in_buffer(buff, text);
-    buff->offset_x = 50;
 
     InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "editor");
     SetWindowState(FLAG_WINDOW_RESIZABLE);
@@ -28,14 +27,7 @@ int main(int argc, char** argv) {
     while(!WindowShouldClose()) {
         BeginDrawing();
 
-        if (IsKeyPressed(KEY_J)) 
-            move_cursor_vertically(buff, -1);
-        if (IsKeyPressed(KEY_K)) 
-            move_cursor_vertically(buff, 1);
-        if (IsKeyPressed(KEY_H)) 
-            move_cursor_horizontally(buff, -1);
-        if (IsKeyPressed(KEY_L)) 
-            move_cursor_horizontally(buff, 1);
+        handle_keyboard(buff);
 
         // If the window is resized
         if (last_width != GetScreenWidth() || last_height != GetScreenHeight()) {
