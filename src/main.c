@@ -6,7 +6,6 @@
 #include "user_interaction.h"
 
 #include <stdio.h>
-#include <stdlib.h>
 
 int main(int argc, char** argv) {
     text_buffer* buff = create_buffer();

@@ -33,7 +33,9 @@ text_buffer* create_buffer();
 text_line* create_new_line(const char* text, int length);
 
 void append_line_to_buffer(text_buffer* buffer, text_line* line);
-void insert_line_into_buffer(text_buffer* buffer, text_line* line, int line_num);
+text_line* insert_line_into_buffer(text_buffer* buffer, text_line* new_line, int line_num);
+text_line* delete_line_from_buffer(text_buffer* buffer, int line_num);
+
 void put_text_in_buffer(text_buffer* buffer, char* text);
 
 void add_character_at_cursor(text_buffer* buffer, char c);

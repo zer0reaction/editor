@@ -9,3 +9,5 @@
 
 #define WINDOW_WIDTH 1000
 #define WINDOW_HEIGHT 800
+
+#define TAB_SPACES 4
