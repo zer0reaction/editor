@@ -18,8 +18,6 @@ text_buffer* create_buffer() {
     buffer->offset_x = 0;
     buffer->offset_y = 0;
 
-    // On what line the cursor is rendered, not the position in the window
-    buffer->cursor_line = 0;
     buffer->max_cursor_pos = 0;
 
     buffer->needs_to_render = 1;
@@ -53,14 +51,56 @@ void append_line_to_buffer(text_buffer* buffer, text_line* line) {
 
 // Insert a line to the place of line_num (starting with 0)
 // Returning the line the cursor is at now
-text_line* insert_line_into_buffer(text_buffer* buffer, text_line* new_line, int line_num) {
+text_line* insert_line_into_buffer(text_buffer* buffer, text_line* new_line, 
+int line_num) {
     // TODO Not implemented
+    return 0;
 }
 
 // Delete a line (line_num starts with 0)
 // Returning the line the cursor is at now
 text_line* delete_line_from_buffer(text_buffer* buffer, int line_num) {
-    // TODO Not implemented
+    text_line* to_delete = buffer->first_line;
+    text_line* next_line;
+    text_line* prev_line;
+
+    // Checking if we have lines in the buffer
+    if (buffer->first_line == NULL) {
+        printf("Error. No lines in buffer\n");
+        return NULL;
+    }
+
+    // Going to the line we need to delete
+    for (int i = 0; i < line_num; i++) {
+        if (to_delete->next_ptr == NULL) {
+            printf("Error. Can't reach line\n");
+            return NULL;
+        }
+
+        to_delete = to_delete->next_ptr;
+    }
+    next_line = to_delete->next_ptr;
+    prev_line = to_delete->prev_ptr;
+
+    // Checking if we have prev line
+    if (prev_line != NULL) {
+        prev_line->next_ptr = next_line;
+    }
+    // if not, that is the first line
+    else {
+        buffer->first_line = next_line;
+    }
+
+    // Checking if we have next line
+    if (next_line != NULL) {
+        next_line->prev_ptr = prev_line;
+    }
+    // if not, that is the last line
+
+    buffer->needs_to_render = 1;
+    if (next_line != NULL) return next_line;
+    else if (prev_line != NULL) return prev_line;
+    else return NULL;
 }
 
 text_line* create_new_line(const char* text, int length) {

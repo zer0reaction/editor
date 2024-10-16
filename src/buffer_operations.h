@@ -21,7 +21,6 @@ struct text_buffer {
     int offset_x;
     int offset_y;
 
-    int cursor_line;
     int max_cursor_pos;
 
     int mode; // 0 - normal, 1 - insert

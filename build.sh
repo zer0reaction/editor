@@ -7,10 +7,10 @@ assembly="editor"
 sourceFlags="src/*.c"
 assemblyFlags="-o bin/$assembly"
 includeFlags="-Iinclude/raylib"
-libraryFlags="-Llib/raylib -l:libraylib.a"
+libraryFlags="-Llib/raylib -l:libraylib.a -lm"
 warningFlags="-Wall -Werror"
 # warningFlags=""
 
 
-g++ $warningFlags $sourceFlags $assemblyFlags $includeFlags $libraryFlags
+gcc $warningFlags $sourceFlags $assemblyFlags $includeFlags $libraryFlags
 # ./bin/$assembly

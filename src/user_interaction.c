@@ -9,6 +9,8 @@
 void handle_keyboard(text_buffer* buffer) {
     // Normal mode stuff
     if (buffer->mode == 0) {
+        int cursor_line = get_cursor_line_num(buffer);
+
         if (IsKeyPressed(KEY_I))
             buffer->mode = 1;
 
@@ -24,22 +26,23 @@ void handle_keyboard(text_buffer* buffer) {
         else if (IsKeyPressed(KEY_L)) 
             move_cursor_horizontally(buffer, 1);
 
-        else if (IsKeyPressed(KEY_O) && (IsKeyDown(KEY_LEFT_SHIFT) || IsKeyDown(KEY_RIGHT_SHIFT))) {
+        else if (IsKeyPressed(KEY_O) && (IsKeyDown(KEY_LEFT_SHIFT) || 
+                 IsKeyDown(KEY_RIGHT_SHIFT))) {
             text_line* new_line = create_new_line("", 0);
-            buffer->current_line = insert_line_into_buffer(buffer, new_line, buffer->cursor_line);
+            insert_line_into_buffer(buffer, new_line, cursor_line);
             buffer->mode = 1;
             snap_cursor(buffer);
         }
 
         else if (IsKeyPressed(KEY_O)) {
             text_line* new_line = create_new_line("", 0);
-            buffer->current_line = insert_line_into_buffer(buffer, new_line, buffer->cursor_line + 1);
+            insert_line_into_buffer(buffer, new_line, cursor_line + 1);
             move_cursor_vertically(buffer, -1);
             buffer->mode = 1;
         }
 
         else if (IsKeyPressed(KEY_D) && (IsKeyDown(KEY_LEFT_SHIFT) || IsKeyDown(KEY_RIGHT_SHIFT))) {
-            buffer->current_line = delete_line_from_buffer(buffer, buffer->cursor_line);
+            buffer->current_line = delete_line_from_buffer(buffer, cursor_line);
         }
     }
 
