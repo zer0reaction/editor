@@ -52,9 +52,42 @@ void append_line_to_buffer(text_buffer* buffer, text_line* line) {
 // Insert a line to the place of line_num (starting with 0)
 // Returning the line the cursor is at now
 text_line* insert_line_into_buffer(text_buffer* buffer, text_line* new_line, 
-int line_num) {
-    // TODO Not implemented
-    return 0;
+                                   int line_num) {
+    text_line* current_line = buffer->first_line;
+    text_line* prev_line = NULL;
+
+    // Going to the line we need to insert to
+    for (int i = 0; i < line_num; i++) {
+        if (current_line == NULL) {
+            printf("Error. Can't reach line\n");
+            return NULL;
+        }
+
+        prev_line = current_line;
+        current_line = current_line->next_ptr;
+    }
+
+    // Checking if we have prev line
+    if (prev_line != NULL) {
+        prev_line->next_ptr = new_line;
+    }
+    // if not, we are inserting to first line
+    else {
+        buffer->first_line = new_line;
+    }
+
+    // Setting lines for new line
+    new_line->prev_ptr = prev_line;
+    new_line->next_ptr = current_line;
+
+    // Checking if we have current line
+    if (current_line != NULL) {
+        current_line->prev_ptr = new_line;
+    }
+    // if not, we are inserting to the last line
+
+    buffer->needs_to_render = 1;
+    return new_line;
 }
 
 // Delete a line (line_num starts with 0)

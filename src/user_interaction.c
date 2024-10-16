@@ -29,16 +29,18 @@ void handle_keyboard(text_buffer* buffer) {
         else if (IsKeyPressed(KEY_O) && (IsKeyDown(KEY_LEFT_SHIFT) || 
                  IsKeyDown(KEY_RIGHT_SHIFT))) {
             text_line* new_line = create_new_line("", 0);
-            insert_line_into_buffer(buffer, new_line, cursor_line);
+            buffer->current_line = insert_line_into_buffer(buffer, new_line, 
+                                                           cursor_line);
             buffer->mode = 1;
             snap_cursor(buffer);
         }
 
         else if (IsKeyPressed(KEY_O)) {
             text_line* new_line = create_new_line("", 0);
-            insert_line_into_buffer(buffer, new_line, cursor_line + 1);
-            move_cursor_vertically(buffer, -1);
+            buffer->current_line = insert_line_into_buffer(buffer, new_line, 
+                                                           cursor_line + 1);
             buffer->mode = 1;
+            snap_cursor(buffer);
         }
 
         else if (IsKeyPressed(KEY_D) && (IsKeyDown(KEY_LEFT_SHIFT) || IsKeyDown(KEY_RIGHT_SHIFT))) {
