@@ -14,7 +14,7 @@ int main(int argc, char** argv) {
 
     InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "editor");
     SetWindowState(FLAG_WINDOW_RESIZABLE);
-    SetTargetFPS(60);
+    SetTargetFPS(30);
 
     init_display("/usr/share/fonts/TTF/Hack-Regular.ttf");
 

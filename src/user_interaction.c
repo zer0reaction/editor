@@ -63,7 +63,6 @@ void handle_keyboard(text_buffer* buffer) {
 
         char c = GetCharPressed();
         while (c) {
-            printf("%i\n", c);
             add_character_at_cursor(buffer, c);
             c = GetCharPressed();
         }
