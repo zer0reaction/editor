@@ -10,7 +10,7 @@
 int main(int argc, char** argv) {
     text_buffer* buff = create_buffer();
     char* text = get_file_text(argv[1]);
-    put_text_in_buffer(buff, text);
+    put_text_in_buffer(buff, text, argv[1]);
 
     InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "editor");
     SetWindowState(FLAG_WINDOW_RESIZABLE);
@@ -50,3 +50,4 @@ int main(int argc, char** argv) {
     CloseWindow();
     return 0;
 }
+

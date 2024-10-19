@@ -3,6 +3,7 @@
 #include "buffer_operations.h"
 #include "cursor_operations.h"
 #include "defines.h"
+#include "file_operations.h"
 #include "raylib.h"
 #include <stdio.h>
 
@@ -11,8 +12,10 @@ void handle_keyboard(text_buffer* buffer) {
     if (buffer->mode == 0) {
         int cursor_line = get_cursor_line_num(buffer);
 
-        if (IsKeyPressed(KEY_I))
+        if (IsKeyPressed(KEY_I)) {
             buffer->mode = 1;
+            buffer->needs_to_render = 1;
+        }
 
         else if (IsKeyPressed(KEY_J)) 
             move_cursor_vertically(buffer, -1);
@@ -43,8 +46,15 @@ void handle_keyboard(text_buffer* buffer) {
             snap_cursor(buffer);
         }
 
-        else if (IsKeyPressed(KEY_D) && (IsKeyDown(KEY_LEFT_SHIFT) || IsKeyDown(KEY_RIGHT_SHIFT))) {
+        else if (IsKeyPressed(KEY_D) && 
+                (IsKeyDown(KEY_LEFT_SHIFT) || IsKeyDown(KEY_RIGHT_SHIFT))) {
             buffer->current_line = delete_line_from_buffer(buffer, cursor_line);
+        }
+
+        else if (IsKeyPressed(KEY_S) && 
+                (IsKeyDown(KEY_LEFT_CONTROL) || IsKeyDown(KEY_RIGHT_CONTROL))) {
+            if (buffer->path)
+                write_buffer_to_file(buffer, buffer->path);
         }
     }
 
@@ -52,6 +62,7 @@ void handle_keyboard(text_buffer* buffer) {
     else if (buffer->mode == 1) {
         if (IsKeyPressed(KEY_ESCAPE)) {
             buffer->mode = 0;
+            buffer->needs_to_render = 1;
         }
         else if (IsKeyPressed(KEY_BACKSPACE)) {
             delete_character_before_cursor(buffer);

@@ -1,6 +1,7 @@
 // Working with files
 
 #include "file_operations.h"
+#include "buffer_operations.h"
 
 #include <unistd.h>
 #include <stdio.h>
@@ -41,4 +42,25 @@ char* get_file_text(const char* path) {
 
     fclose(file_ptr);
     return text;
+}
+
+void write_buffer_to_file(text_buffer* buffer, const char* path) {
+    FILE* file_ptr;
+
+    // BAD
+    file_ptr = fopen(path, "w");
+    fprintf(file_ptr, "%s", "");
+
+    fclose(file_ptr);
+    file_ptr = fopen(path, "a");
+    // BAD
+
+    text_line* line = buffer->first_line;
+
+    while (line != NULL) {
+        fprintf(file_ptr, "%s\n", line->text);
+        line = line->next_ptr;
+    }
+
+    fclose(file_ptr);
 }

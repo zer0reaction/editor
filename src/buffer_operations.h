@@ -20,12 +20,11 @@ struct text_buffer {
 
     int offset_x;
     int offset_y;
-
     int max_cursor_pos;
-
     int mode; // 0 - normal, 1 - insert
-    
     int needs_to_render;
+
+    const char* path;
 };
 
 text_buffer* create_buffer();
@@ -38,6 +37,6 @@ text_line* delete_line_from_buffer(text_buffer* buffer, int line_num);
 text_line* insert_line_into_buffer(text_buffer* buffer, text_line* new_line, 
                                    int line_num);
 
-void put_text_in_buffer(text_buffer* buffer, char* text);
+void put_text_in_buffer(text_buffer* buffer, char* text, char* path);
 
 void free_buffer(text_buffer* buffer);

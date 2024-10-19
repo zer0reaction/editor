@@ -48,7 +48,13 @@ void display_buffer(text_buffer* buffer) {
                 int cursor_y = cursor_line * FONT_SIZE + 
                 buffer->offset_y;
 
-                DrawRectangle(cursor_x, cursor_y, FONT_SIZE / 2, FONT_SIZE, 
+                int cursor_width;
+                if (buffer->mode == 1)
+                    cursor_width = FONT_SIZE / 10;
+                else 
+                    cursor_width = FONT_SIZE / 2;
+
+                DrawRectangle(cursor_x, cursor_y, cursor_width, FONT_SIZE, 
                 CURSOR_COLOR);
 
                 char character_under_cursor[2];

@@ -160,7 +160,9 @@ text_line* create_new_line(const char* text, int length) {
 }
 
 // Creating a linked list from lines of text
-void put_text_in_buffer(text_buffer* buffer, char* text) {
+void put_text_in_buffer(text_buffer* buffer, char* text, char* path) {
+    buffer->path = path;
+
     char* line_start = text;
     char* line_end = strstr(text, "\n");
 
