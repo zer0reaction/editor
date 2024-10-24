@@ -60,7 +60,7 @@ void handle_keyboard(text_buffer* buffer) {
 
     // Insert mode stuff
     else if (buffer->mode == 1) {
-        if (IsKeyPressed(KEY_ESCAPE)) {
+        if (IsKeyPressed(KEY_ESCAPE) || IsKeyPressed(KEY_CAPS_LOCK)) {
             buffer->mode = 0;
             buffer->needs_to_render = 1;
         }

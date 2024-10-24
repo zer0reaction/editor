@@ -63,9 +63,15 @@ void display_buffer(text_buffer* buffer) {
 
                 character_under_cursor[1] = '\n';
 
-                DrawTextEx(font, character_under_cursor, 
-                           (Vector2){ (float)cursor_x, (float)cursor_y }, 
-                           (float)font.baseSize, 0.0f, BACKGROUND_COLOR);
+                if (buffer->mode == 1) {
+                    DrawTextEx(font, character_under_cursor, 
+                               (Vector2){ (float)cursor_x, (float)cursor_y }, 
+                               (float)font.baseSize, 0.0f, FONT_COLOR);
+                } else {
+                    DrawTextEx(font, character_under_cursor, 
+                               (Vector2){ (float)cursor_x, (float)cursor_y }, 
+                               (float)font.baseSize, 0.0f, BACKGROUND_COLOR);
+                }
             }
         }
         else if (current_offset_y > screen_height) return;
