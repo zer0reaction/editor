@@ -11,5 +11,3 @@
 #define WINDOW_HEIGHT 1000
 
 #define TAB_SPACES 4
-
-

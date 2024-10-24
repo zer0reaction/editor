@@ -22,17 +22,20 @@ int get_cursor_line_num(text_buffer* buffer) {
     return cursor_line;
 }
 
-// Change the offset so the cursor is visible from the top of the screen or from the bottom
+// Change the offset so the cursor is visible from the top of the screen or 
+// from the bottom
 void snap_cursor(text_buffer* buffer) {
     int cursor_line = get_cursor_line_num(buffer);
-    int current_cursor_relative_pos_y = cursor_line * FONT_SIZE + buffer->offset_y;
+    int current_cursor_relative_pos_y = 
+        cursor_line * FONT_SIZE + buffer->offset_y;
 
     // If the cursor is above window
     if (current_cursor_relative_pos_y < 0)
         buffer->offset_y += -current_cursor_relative_pos_y;
     // If the cursor is below
     else if (current_cursor_relative_pos_y + FONT_SIZE >= GetScreenHeight())
-        buffer->offset_y -= current_cursor_relative_pos_y + FONT_SIZE - GetScreenHeight();
+        buffer->offset_y -= 
+            current_cursor_relative_pos_y + FONT_SIZE - GetScreenHeight();
 }
 
 void move_cursor_vertically(text_buffer* buffer, int offset) {
@@ -61,7 +64,8 @@ void move_cursor_vertically(text_buffer* buffer, int offset) {
             buffer->current_line->last_cursor_pos = buffer->max_cursor_pos;
         }
         else {
-            buffer->current_line->last_cursor_pos = strlen(buffer->current_line->text);
+            buffer->current_line->last_cursor_pos = 
+                strlen(buffer->current_line->text);
         }
 
         snap_cursor(buffer);
@@ -82,8 +86,10 @@ void move_cursor_horizontally(text_buffer* buffer, int offset) {
             }
 
         } else if (offset > 0) {
-            if (buffer->current_line->last_cursor_pos + offset>= (int)strlen(buffer->current_line->text)) {
-                buffer->current_line->last_cursor_pos = strlen(buffer->current_line->text);
+            if (buffer->current_line->last_cursor_pos + offset >= 
+                (int)strlen(buffer->current_line->text)) {
+                buffer->current_line->last_cursor_pos = 
+                    strlen(buffer->current_line->text);
             } else {
                 buffer->current_line->last_cursor_pos += offset;
                 buffer->max_cursor_pos = buffer->current_line->last_cursor_pos;
@@ -108,7 +114,8 @@ void add_character_at_cursor(text_buffer* buffer, char c) {
 
     strncpy(new_text, current_line->text, cursor_pos);
     new_text[cursor_pos] = c;
-    strncpy(new_text + cursor_pos + 1, current_line->text + cursor_pos, strlen(current_line->text) - cursor_pos);
+    strncpy(new_text + cursor_pos + 1, current_line->text + cursor_pos, 
+        strlen(current_line->text) - cursor_pos);
 
     free(current_line->text);
     current_line->text = new_text;
@@ -131,7 +138,8 @@ void delete_character_before_cursor(text_buffer* buffer) {
     new_text[strlen(current_line->text) - 1] = '\0';
 
     strncpy(new_text, current_line->text, cursor_pos - 1);
-    strncpy(new_text + cursor_pos - 1, current_line->text + cursor_pos, strlen(current_line->text) - cursor_pos);
+    strncpy(new_text + cursor_pos - 1, current_line->text + cursor_pos, 
+        strlen(current_line->text) - cursor_pos);
 
     free(current_line->text);
     current_line->text = new_text;
@@ -140,4 +148,3 @@ void delete_character_before_cursor(text_buffer* buffer) {
     buffer->max_cursor_pos = current_line->last_cursor_pos;
     buffer->needs_to_render = 1;
 }
-
