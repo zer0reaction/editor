@@ -58,7 +58,11 @@ void write_buffer_to_file(text_buffer* buffer, const char* path) {
     text_line* line = buffer->first_line;
 
     while (line != NULL) {
-        fprintf(file_ptr, "%s\n", line->text);
+        // If it is not the last line
+        if (line->next_ptr != NULL) fprintf(file_ptr, "%s\n", line->text);
+        // If it is the last line
+        else fprintf(file_ptr, "%s", line->text);
+
         line = line->next_ptr;
     }
 
