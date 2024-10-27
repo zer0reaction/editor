@@ -9,8 +9,13 @@
 
 int main(int argc, char** argv) {
     text_buffer* buff = create_buffer();
-    char* text = get_file_text(argv[1]);
-    put_text_in_buffer(buff, text, argv[1]);
+
+    if (check_file_existence(argv[1])) {
+        char* text = get_file_text(argv[1]);
+        put_text_in_buffer(buff, text, argv[1]);
+    }
+
+    buff->path = argv[1];
 
     InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "editor");
     SetWindowState(FLAG_WINDOW_RESIZABLE);

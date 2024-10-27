@@ -44,15 +44,15 @@ char* get_file_text(const char* path) {
     return text;
 }
 
-void write_buffer_to_file(text_buffer* buffer, const char* path) {
+void write_buffer_to_file(text_buffer* buffer) {
     FILE* file_ptr;
 
     // BAD
-    file_ptr = fopen(path, "w");
+    file_ptr = fopen(buffer->path, "w");
     fprintf(file_ptr, "%s", "");
 
     fclose(file_ptr);
-    file_ptr = fopen(path, "a");
+    file_ptr = fopen(buffer->path, "a");
     // BAD
 
     text_line* line = buffer->first_line;
@@ -67,4 +67,5 @@ void write_buffer_to_file(text_buffer* buffer, const char* path) {
     }
 
     fclose(file_ptr);
+    printf("File saved: %s\n", buffer->path);
 }

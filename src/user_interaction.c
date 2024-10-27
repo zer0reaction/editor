@@ -54,7 +54,7 @@ void handle_keyboard(text_buffer* buffer) {
         else if (IsKeyPressed(KEY_S) && 
                 (IsKeyDown(KEY_LEFT_CONTROL) || IsKeyDown(KEY_RIGHT_CONTROL))) {
             if (buffer->path)
-                write_buffer_to_file(buffer, buffer->path);
+                write_buffer_to_file(buffer);
         }
     }
 
