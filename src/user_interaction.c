@@ -35,6 +35,7 @@ void handle_keyboard(text_buffer* buffer) {
             buffer->current_line = insert_line_into_buffer(buffer, new_line, 
                                                            cursor_line);
             buffer->mode = 1;
+            buffer->saved = 0;
             snap_cursor(buffer);
         }
 
@@ -43,12 +44,14 @@ void handle_keyboard(text_buffer* buffer) {
             buffer->current_line = insert_line_into_buffer(buffer, new_line, 
                                                            cursor_line + 1);
             buffer->mode = 1;
+            buffer->saved = 0;
             snap_cursor(buffer);
         }
 
         else if (IsKeyPressed(KEY_D) && 
                 (IsKeyDown(KEY_LEFT_SHIFT) || IsKeyDown(KEY_RIGHT_SHIFT))) {
             buffer->current_line = delete_line_from_buffer(buffer, cursor_line);
+            buffer->saved = 0;
         }
 
         else if (IsKeyPressed(KEY_S) && 
@@ -66,16 +69,19 @@ void handle_keyboard(text_buffer* buffer) {
         }
         else if (IsKeyPressed(KEY_BACKSPACE)) {
             delete_character_before_cursor(buffer);
+            buffer->saved = 0;
         }
         else if (IsKeyPressed(KEY_TAB)) {
             for (int i = 0; i < TAB_SPACES; i++)
                 add_character_at_cursor(buffer, ' ');
+            buffer->saved = 0;
         }
 
         char c = GetCharPressed();
         while (c) {
             add_character_at_cursor(buffer, c);
             c = GetCharPressed();
+            buffer->saved = 0;
         }
     }
 }

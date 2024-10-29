@@ -23,6 +23,7 @@ struct text_buffer {
     int max_cursor_pos;
     int mode; // 0 - normal, 1 - insert
     int needs_to_render;
+    int saved;
 
     const char* path;
 };

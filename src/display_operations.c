@@ -2,6 +2,8 @@
 
 #include <stddef.h>
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 #include "raylib.h"
 #include "display_operations.h"
@@ -19,10 +21,9 @@ void end_display() {
     UnloadFont(font);
 }
 
-void display_cursor(text_buffer* buffer) {
-}
-
 void display_buffer(text_buffer* buffer) {
+    update_title(buffer);
+
     ClearBackground(BACKGROUND_COLOR);
 
     int screen_height = GetScreenHeight();
@@ -76,4 +77,17 @@ void display_buffer(text_buffer* buffer) {
         current_offset_y += font.baseSize;
         line = line->next_ptr;
     }
+}
+
+void update_title(text_buffer* buffer) {
+    char title[1024] = {0};
+
+    if (buffer->saved) {
+        strcpy(title, buffer->path);
+    } else {
+        title[0] = '*';
+        strcpy(title + 1, buffer->path);
+    }
+
+    SetWindowTitle(title);
 }

@@ -67,5 +67,7 @@ void write_buffer_to_file(text_buffer* buffer) {
     }
 
     fclose(file_ptr);
+    buffer->saved = 1;
+    buffer->needs_to_render = 1;
     printf("File saved: %s\n", buffer->path);
 }

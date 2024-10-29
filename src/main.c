@@ -1,6 +1,7 @@
 #include "raylib.h"
 #include "file_operations.h"
 #include "buffer_operations.h"
+#include "cursor_operations.h"
 #include "display_operations.h"
 #include "defines.h"
 #include "user_interaction.h"
@@ -13,6 +14,7 @@ int main(int argc, char** argv) {
     if (check_file_existence(argv[1])) {
         char* text = get_file_text(argv[1]);
         put_text_in_buffer(buff, text, argv[1]);
+        buff->saved = 1;
     }
 
     buff->path = argv[1];
@@ -36,6 +38,7 @@ int main(int argc, char** argv) {
         // If the window is resized
         if (last_width != GetScreenWidth() || last_height != GetScreenHeight()) {
             buff->needs_to_render = 1;
+            snap_cursor(buff);
         }
 
         if (buff->needs_to_render) {

@@ -14,6 +14,7 @@ text_buffer* create_buffer() {
     buffer->first_line = NULL;
     buffer->current_line = NULL;
     buffer->mode = 0;
+    buffer->saved = 0;
 
     buffer->offset_x = 0;
     buffer->offset_y = 0;
