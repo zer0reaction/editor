@@ -1,6 +1,7 @@
 // Working with text
 
 #include "buffer_operations.h"
+#include "cursor_operations.h"
 
 #include <string.h>
 #include <stddef.h>
@@ -194,6 +195,28 @@ void put_text_in_buffer(text_buffer* buffer, char* text, char* path) {
     append_line_to_buffer(buffer, new_line);
 
     buffer->current_line = buffer->first_line;
+}
+
+// Hitting enter in insert mode
+text_line* shift_line_to_next(text_buffer* buffer) {
+    char a[1024] = {0}; // new text of current line
+    char b[1024] = {0}; // new text of next line
+    text_line* current_line = buffer->current_line;
+
+    strncpy(a, current_line->text, current_line->last_cursor_pos);
+    strncpy(b, current_line->text + current_line->last_cursor_pos, 
+            strlen(current_line->text) - current_line->last_cursor_pos);
+
+    text_line* new_line = create_new_line(b, strlen(b));
+    insert_line_into_buffer(buffer, new_line, get_cursor_line_num(buffer) + 1);
+
+    free(current_line->text);
+    current_line->text = (char*)malloc(strlen(a) + 1);
+    strcpy(current_line->text, a);
+
+    buffer->needs_to_render = 1;
+    buffer->max_cursor_pos = 0;
+    return new_line;
 }
 
 void free_buffer(text_buffer* buffer) {

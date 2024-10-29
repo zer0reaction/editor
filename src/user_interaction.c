@@ -66,14 +66,16 @@ void handle_keyboard(text_buffer* buffer) {
         if (IsKeyPressed(KEY_ESCAPE) || IsKeyPressed(KEY_CAPS_LOCK)) {
             buffer->mode = 0;
             buffer->needs_to_render = 1;
-        }
-        else if (IsKeyPressed(KEY_BACKSPACE)) {
+        } else if (IsKeyPressed(KEY_BACKSPACE)) {
             delete_character_before_cursor(buffer);
             buffer->saved = 0;
-        }
-        else if (IsKeyPressed(KEY_TAB)) {
+        } else if (IsKeyPressed(KEY_TAB)) {
             for (int i = 0; i < TAB_SPACES; i++)
                 add_character_at_cursor(buffer, ' ');
+            buffer->saved = 0;
+        } else if (IsKeyPressed(KEY_ENTER)) {
+            // TEMP
+            buffer->current_line = shift_line_to_next(buffer);
             buffer->saved = 0;
         }
 

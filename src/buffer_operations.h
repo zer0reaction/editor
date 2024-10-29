@@ -37,6 +37,7 @@ text_line* insert_line_into_buffer(text_buffer* buffer, text_line* new_line,
 text_line* delete_line_from_buffer(text_buffer* buffer, int line_num);
 text_line* insert_line_into_buffer(text_buffer* buffer, text_line* new_line, 
                                    int line_num);
+text_line* shift_line_to_next(text_buffer* buffer);
 
 void put_text_in_buffer(text_buffer* buffer, char* text, char* path);
 
