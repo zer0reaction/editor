@@ -32,13 +32,10 @@ text_buffer* create_buffer();
 text_line* create_new_line(const char* text, int length);
 
 void append_line_to_buffer(text_buffer* buffer, text_line* line);
-text_line* insert_line_into_buffer(text_buffer* buffer, text_line* new_line, 
-                                   int line_num);
+text_line* insert_line_into_buffer(text_buffer* buffer, text_line* new_line, int line_num);
 text_line* delete_line_from_buffer(text_buffer* buffer, int line_num);
-text_line* insert_line_into_buffer(text_buffer* buffer, text_line* new_line, 
-                                   int line_num);
+text_line* insert_line_into_buffer(text_buffer* buffer, text_line* new_line, int line_num);
 text_line* shift_line_to_next(text_buffer* buffer);
-
+text_line* join_line_with_prev(text_buffer* buffer);
 void put_text_in_buffer(text_buffer* buffer, char* text, char* path);
-
 void free_buffer(text_buffer* buffer);

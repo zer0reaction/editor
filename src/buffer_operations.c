@@ -219,6 +219,28 @@ text_line* shift_line_to_next(text_buffer* buffer) {
     return new_line;
 }
 
+text_line* join_line_with_prev(text_buffer* buffer) {
+    char a[2048] = { 0 };
+
+    text_line* current_line = buffer->current_line;
+    text_line* prev_line = buffer->current_line->prev_ptr;
+
+    if (prev_line != NULL) {
+        strcpy(a, prev_line->text);
+        strcat(a, current_line->text);
+
+        delete_line_from_buffer(buffer, get_cursor_line_num(buffer));
+        prev_line->last_cursor_pos = strlen(prev_line->text);
+        free(prev_line->text);
+        prev_line->text = (char*)malloc(strlen(a) + 1);
+        strcpy(prev_line->text, a);
+
+        buffer->needs_to_render = 1;
+        return prev_line;
+    } 
+    else return current_line;
+}
+
 void free_buffer(text_buffer* buffer) {
     if (buffer != NULL) {
         text_line* current_line = buffer->first_line;

@@ -66,6 +66,9 @@ void handle_keyboard(text_buffer* buffer) {
         if (IsKeyPressed(KEY_ESCAPE) || IsKeyPressed(KEY_CAPS_LOCK)) {
             buffer->mode = 0;
             buffer->needs_to_render = 1;
+        } else if (IsKeyPressed(KEY_BACKSPACE) && buffer->current_line->last_cursor_pos == 0) {
+            buffer->current_line = join_line_with_prev(buffer);
+            buffer->saved = 0;
         } else if (IsKeyPressed(KEY_BACKSPACE)) {
             delete_character_before_cursor(buffer);
             buffer->saved = 0;
